@@ -13,8 +13,8 @@ namespace sstracker.Controllers
         public IActionResult GetDisponiblesAhora()
         {
             // Para pruebas puedes descomentar la siguiente línea:
-            var now = new DateTime(2025, 8, 25, 9, 0, 0); // Lunes 25/08/2025 9:00
-            //var now = DateTime.Now;
+            //var now = new DateTime(2025, 8, 25, 9, 0, 0); // Lunes 25/08/2025 9:00
+            var now = DateTime.Now;
 
             var lines = System.IO.File.ReadAllLines(_csvPath);
             if (lines.Length < 2) return Ok(new { disponibles = new string[0], mensaje = "CSV vacío" });

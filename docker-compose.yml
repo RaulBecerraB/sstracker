@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  sstracker:
+    build: .
+    ports:
+      - "5007:5007"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
