@@ -1,0 +1,15 @@
+date,day,start,end,advisors
+2025-08-25,Mon,09:00,12:00,Angel
+2025-08-25,Mon,12:00,14:00,Jorge
+2025-08-25,Mon,14:00,17:00,Raul; Angel; Jorge
+2025-08-25,Mon,17:00,18:00,Rafa
+2025-08-26,Tue,09:00,13:00,Jorge
+2025-08-26,Tue,11:00,13:00,Rafa
+2025-08-26,Tue,14:00,16:00,Raul; Angel; Jorge
+2025-08-26,Tue,16:00,17:00,Raul
+2025-08-27,Wed,13:00,17:00,Rafa; Raul
+2025-08-27,Wed,17:00,19:00,Rafa; Angel; Raul
+2025-08-28,Thu,13:00,14:00,Jorge; Rafa; Raul
+2025-08-28,Thu,14:00,16:00,Jorge; Rafa; Raul; Angel
+2025-08-28,Thu,19:00,20:00,Angel
+2025-08-29,Fri,09:00,13:00,Raul; Jorge
