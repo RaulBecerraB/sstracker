@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,24 +23,38 @@ namespace sstracker.Controllers
             var lines = System.IO.File.ReadAllLines(_csvPath);
             if (lines.Length < 2) return Ok(new { disponibles = new string[0], mensaje = "CSV vacío" });
 
-            // Buscar bloques donde la fecha y hora actual estén dentro del rango
+            // Map DayOfWeek to CSV day abbreviations used in the file (Mon, Tue, Wed, Thu, Fri)
+            var dowMap = new Dictionary<DayOfWeek, string>
+            {
+                [DayOfWeek.Monday] = "Mon",
+                [DayOfWeek.Tuesday] = "Tue",
+                [DayOfWeek.Wednesday] = "Wed",
+                [DayOfWeek.Thursday] = "Thu",
+                [DayOfWeek.Friday] = "Fri",
+                [DayOfWeek.Saturday] = "Sat",
+                [DayOfWeek.Sunday] = "Sun",
+            };
+            var todayAbbrev = dowMap[now.DayOfWeek];
+
+            // Buscar bloques donde el 'day' (segunda columna) coincida con el día actual y la hora esté en el rango
             var disponibles = new List<string>();
             for (int i = 1; i < lines.Length; i++)
             {
                 var cols = lines[i].Split(',');
                 if (cols.Length < 5) continue;
-                var dateStr = cols[0].Trim();
+                var dayStr = cols[1].Trim(); // usar el nombre del día en CSV, ej "Mon"
                 var startStr = cols[2].Trim();
                 var endStr = cols[3].Trim();
                 var advisorsStr = cols[4].Trim();
 
-                if (!DateTime.TryParse(dateStr, out var fecha)) continue;
+                if (!string.Equals(dayStr, todayAbbrev, StringComparison.OrdinalIgnoreCase)) continue;
                 if (!TimeSpan.TryParse(startStr, out var start)) continue;
                 if (!TimeSpan.TryParse(endStr, out var end)) continue;
 
-                if (fecha.Date == now.Date && now.TimeOfDay >= start && now.TimeOfDay < end)
+                if (now.TimeOfDay >= start && now.TimeOfDay < end)
                 {
-                    disponibles.AddRange(advisorsStr.Split(';').Select(a => a.Trim()).Where(a => !string.IsNullOrWhiteSpace(a)));
+                    disponibles.AddRange(advisorsStr.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(a => a.Trim()).Where(a => !string.IsNullOrWhiteSpace(a)));
                 }
             }
 

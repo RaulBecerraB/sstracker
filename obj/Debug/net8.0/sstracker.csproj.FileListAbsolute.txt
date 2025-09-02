@@ -30,3 +30,4 @@ C:\ENCODING\ASP_dotNET\sstracker\obj\Debug\net8.0\refint\sstracker.dll
 C:\ENCODING\ASP_dotNET\sstracker\obj\Debug\net8.0\sstracker.pdb
 C:\ENCODING\ASP_dotNET\sstracker\obj\Debug\net8.0\sstracker.genruntimeconfig.cache
 C:\ENCODING\ASP_dotNET\sstracker\obj\Debug\net8.0\ref\sstracker.dll
+C:\ENCODING\ASP_dotNET\sstracker\obj\Debug\net8.0\sstracker.sourcelink.json
