@@ -60,5 +60,39 @@ namespace sstracker.Controllers
 
             return Ok(new { disponibles = disponibles.Distinct().ToArray() });
         }
+
+        [HttpGet("health")]
+        public IActionResult Health()
+        {
+            var now = DateTime.Now;
+            var info = new Dictionary<string, object>
+            {
+                ["status"] = "Healthy",
+                ["serverTime"] = now,
+            };
+
+            try
+            {
+                var fullPath = System.IO.Path.Combine(AppContext.BaseDirectory, "../", _csvPath).Replace("\\", "/");
+                // Try original path first, then the app-relative path inside container
+                bool exists = System.IO.File.Exists(_csvPath) || System.IO.File.Exists(fullPath);
+                info["csvExists"] = exists;
+                if (exists)
+                {
+                    var pathToUse = System.IO.File.Exists(_csvPath) ? _csvPath : fullPath;
+                    var lines = System.IO.File.ReadAllLines(pathToUse);
+                    info["csvLines"] = lines.Length;
+                    var fi = new System.IO.FileInfo(pathToUse);
+                    info["csvLastModified"] = fi.LastWriteTime;
+                }
+            }
+            catch (Exception ex)
+            {
+                info["csvExists"] = false;
+                info["error"] = ex.Message;
+            }
+
+            return Ok(info);
+        }
     }
 }

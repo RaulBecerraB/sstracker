@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sstracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dbe99fb407fba9028a4d7797a7e2fbd0f25330e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f1b44e858c7efae4a28c6d27a47eca88de2b32a")]
 [assembly: System.Reflection.AssemblyProductAttribute("sstracker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sstracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
