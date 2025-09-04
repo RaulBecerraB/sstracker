@@ -18,7 +18,7 @@ namespace sstracker.Controllers
         {
             // Para pruebas puedes descomentar la siguiente línea:
             //var now = new DateTime(2025, 8, 25, 9, 0, 0); // Lunes 25/08/2025 9:00
-            var now = DateTime.Now;
+            var now = GetMexicoNow();
 
             var lines = System.IO.File.ReadAllLines(_csvPath);
             if (lines.Length < 2) return Ok(new { disponibles = new string[0], mensaje = "CSV vacío" });
@@ -64,7 +64,7 @@ namespace sstracker.Controllers
         [HttpGet("health")]
         public IActionResult Health()
         {
-            var now = DateTime.Now;
+            var now = GetMexicoNow();
             var info = new Dictionary<string, object>
             {
                 ["status"] = "Healthy",
@@ -93,6 +93,31 @@ namespace sstracker.Controllers
             }
 
             return Ok(info);
+        }
+
+        private DateTime GetMexicoNow()
+        {
+            // Try common timezone IDs across Linux and Windows
+            var candidates = new[]
+            {
+                "America/Mexico_City",
+                "Mexico Standard Time",
+                "Central Standard Time (Mexico)",
+                "Central Standard Time"
+            };
+
+            foreach (var id in candidates)
+            {
+                try
+                {
+                    var tz = TimeZoneInfo.FindSystemTimeZoneById(id);
+                    return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
+                }
+                catch { }
+            }
+
+            // Fallback to local server time if none found
+            return DateTime.Now;
         }
     }
 }
