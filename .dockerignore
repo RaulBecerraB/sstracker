@@ -1,6 +1,40 @@
+# .NET
+bin/
+obj/
 **/bin/
 **/obj/
-**/.vs/
-**/.git/
-**/.idea/
-**/.vscode/
+
+# Node.js
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+build/
+dist/
+wwwroot/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
