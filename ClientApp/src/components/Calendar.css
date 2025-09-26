@@ -1,0 +1,477 @@
+.calendar-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.current-status {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: white;
+  border-radius: 25px;
+  font-weight: 500;
+  border: 1px solid #4b5563;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4caf50;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.current-advisors {
+  font-weight: 600;
+  color: #4caf50;
+}
+
+.no-advisors {
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+.calendar-table {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-grid {
+  display: grid;
+  border-collapse: collapse;
+}
+
+.calendar-grid.desktop-grid {
+  grid-template-columns: 100px repeat(5, 1fr);
+}
+
+.calendar-grid.mobile-grid {
+  grid-template-columns: 100px repeat(2, 1fr);
+}
+
+.time-header {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  border-bottom: 1px solid #4b5563;
+}
+
+.day-header {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: white;
+  padding: 15px 10px;
+  text-align: center;
+  border-bottom: 1px solid #4b5563;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.day-header:last-child {
+  border-right: none;
+}
+
+.day-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.day-abbrev {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.time-label {
+  background: #f8f9fa;
+  padding: 20px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #666;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+.time-text {
+  writing-mode: horizontal-tb;
+  font-size: 0.9rem;
+}
+
+.calendar-cell {
+  padding: 12px 8px;
+  border-bottom: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  min-height: 60px;
+  background: white;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.calendar-cell:last-child {
+  border-right: none;
+}
+
+.calendar-cell:hover {
+  background: #f8f9ff;
+}
+
+.calendar-cell.current-time:not(.empty-cell) {
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0fff0 100%);
+  box-shadow: inset 0 0 0 3px #4caf50;
+  position: relative;
+}
+
+/* Current time empty cells keep gray background */
+.calendar-cell.current-time.empty-cell {
+  background: #f8f9fa !important;
+}
+
+.calendar-cell.current-time:not(.empty-cell)::before {
+  content: "🕐 AHORA";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #4caf50;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+/* This is now handled in the updated .advisors-list section below */
+
+.advisor-tag {
+  background: #64748b;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.advisor-tag.available-now {
+  background: #4caf50;
+  color: white;
+}
+
+/* All advisor tags now use uniform colors - only status matters */
+
+/* Cell advisor photos - now inline with advisors list */
+.cell-advisor-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  background: white;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cell-advisor-photo:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover effect for calendar cells with content */
+.calendar-cell:not(.empty-cell):hover {
+  background: #f8f9ff;
+  border-left: 3px solid #6366f1;
+}
+
+/* Empty cells - no interaction, fixed gray background */
+.calendar-cell.empty-cell {
+  cursor: default;
+  background: #f8f9fa !important;
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+.calendar-cell.empty-cell:hover {
+  background: #f8f9fa !important;
+  border: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Add subtle indicator for clickable cells with content only */
+.calendar-cell:not(.empty-cell):after {
+  content: "👁️";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 8px;
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+}
+
+.calendar-cell:hover:not(.empty-cell):after {
+  opacity: 0.6;
+}
+
+/* Clicked state for toggle */
+.calendar-cell.cell-clicked {
+  background: #f0f4ff;
+  border: 2px solid #6366f1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+/* Animation for toggle transition */
+.advisors-list {
+  transition: all 0.3s ease;
+  min-height: 24px;
+  align-items: center;
+  position: relative;
+}
+
+/* Advisor names and photos containers */
+.advisor-names,
+.advisor-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+/* Default state: show names, hide photos */
+.advisor-names {
+  opacity: 1;
+  visibility: visible;
+}
+
+.advisor-photos {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Hover state: show photos, hide names */
+.calendar-cell:not(.empty-cell):hover .advisor-names {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.calendar-cell:not(.empty-cell):hover .advisor-photos {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Clicked state: show photos, hide names */
+.calendar-cell.cell-clicked .advisor-names {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.calendar-cell.cell-clicked .advisor-photos {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 15px;
+  }
+
+  .calendar-grid.desktop-grid {
+    grid-template-columns: 100px repeat(2, 1fr);
+    font-size: 0.9rem;
+  }
+
+  .calendar-grid.mobile-grid {
+    grid-template-columns: 100px repeat(2, 1fr);
+    font-size: 0.9rem;
+  }
+
+  .day-header {
+    padding: 15px 8px;
+  }
+
+  .day-header h3 {
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+
+  .calendar-cell {
+    padding: 12px 8px;
+    min-height: 70px;
+  }
+
+  .advisor-tag {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    margin: 2px;
+    display: inline-block;
+    line-height: 1.2;
+  }
+
+  .cell-advisor-photo {
+    width: 36px;
+    height: 36px;
+    border-width: 2px;
+  }
+
+  .calendar-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .status-indicator {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  /* Mobile specific improvements */
+  .time-label {
+    padding: 20px 8px;
+  }
+
+  .time-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  /* Make current time indicator more visible on mobile */
+  .calendar-cell.current-time:not(.empty-cell)::before {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    top: 3px;
+    right: 3px;
+  }
+
+  /* Improve touch targets for mobile */
+  .calendar-cell:not(.empty-cell) {
+    cursor: pointer;
+    min-height: 70px;
+  }
+
+  .advisors-list {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-container {
+    padding: 10px;
+  }
+
+  .calendar-grid.desktop-grid,
+  .calendar-grid.mobile-grid {
+    grid-template-columns: 80px repeat(2, 1fr);
+    font-size: 0.85rem;
+  }
+
+  .time-label {
+    padding: 18px 6px;
+  }
+
+  .time-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .day-header {
+    padding: 12px 6px;
+  }
+
+  .day-header h3 {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+
+  .calendar-cell {
+    padding: 10px 6px;
+    min-height: 60px;
+  }
+
+  .advisor-tag {
+    padding: 3px 6px;
+    font-size: 0.7rem;
+    margin: 1px;
+  }
+
+  .cell-advisor-photo {
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+  }
+
+  .status-indicator {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .advisors-list {
+    min-height: 35px;
+  }
+
+  /* Improve current time indicator for very small screens */
+  .calendar-cell.current-time:not(.empty-cell)::before {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    top: 2px;
+    right: 2px;
+  }
+}

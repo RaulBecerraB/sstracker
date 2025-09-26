@@ -1,6 +1,21 @@
-@sstracker_HostAddress = http://localhost:5119
+@sstracker_HostAddress = http://localhost:5007
 
-GET {{sstracker_HostAddress}}/weatherforecast/
+### Get complete schedule
+GET {{sstracker_HostAddress}}/api/v1/schedule
 Accept: application/json
+
+### Get currently available advisors
+GET {{sstracker_HostAddress}}/api/v1/schedule/advisors/available
+Accept: application/json
+
+### Health check
+GET {{sstracker_HostAddress}}/api/v1/health
+Accept: application/json
+
+### Swagger Documentation
+GET {{sstracker_HostAddress}}/swagger/index.html
+
+### Calendar UI
+GET {{sstracker_HostAddress}}/calendar
 
 ###

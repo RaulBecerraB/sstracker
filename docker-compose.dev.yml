@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  sstracker-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: sstracker-dev
+    ports:
+      - "5007:5007"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5007
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+    volumes:
+      # Mount source code for hot reload
+      - ./Controllers:/app/Controllers
+      - ./Program.cs:/app/Program.cs
+      - ./Assets:/app/Assets
+      - ./sstracker.csproj:/app/sstracker.csproj
+      - ./ClientApp/src:/app/ClientApp/src
+      - ./ClientApp/public:/app/ClientApp/public
+      - ./ClientApp/package.json:/app/ClientApp/package.json
+      - ./ClientApp/tsconfig.json:/app/ClientApp/tsconfig.json
+      # Mount wwwroot for React build files
+      - ./wwwroot:/app/wwwroot
+      # Preserve node_modules in container
+      - sstracker-node-modules:/app/ClientApp/node_modules
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:5007/api/ssTracker/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  sstracker-node-modules:
