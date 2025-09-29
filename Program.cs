@@ -136,7 +136,7 @@ app.MapGet("/", () => Results.Json(new
 app.Run();
 
 // Document filter to clean paths in Swagger UI
-public class RemoveVersionFromPathsFilter : Microsoft.OpenApi.Models.IDocumentFilter
+public class RemoveVersionFromPathsFilter : Swashbuckle.AspNetCore.SwaggerGen.IDocumentFilter
 {
     public void Apply(Microsoft.OpenApi.Models.OpenApiDocument swaggerDoc, Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext context)
     {
